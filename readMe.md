@@ -5,7 +5,7 @@
  - **Object Oriented PHP**
  - **Twig**
  - **Tailwind or Bootstrap (I'd prefer to use TW)**
- - **Database from Bloog project with added fields (e.g. article_rating (linked to comments))**
+ - **Database from [Bloog](https://github.com/Leerlandais/BlOOG1) project with added fields (e.g. article_rating (linked to comments))**
 
 
 ### Include
