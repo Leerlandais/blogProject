@@ -1,5 +1,5 @@
 <?php
-echo ("Hi There");
+
 use model\Manager\ArticleManager;
 use model\Mapping\ArticleMapping;
 
@@ -12,5 +12,6 @@ $newTest = new ArticleMapping([
     'user_user_id' => "1",
 ]);
 
-var_dump($newTest);
 
+
+echo $twig->render('base.html.twig', ["article" => $newTest]);
