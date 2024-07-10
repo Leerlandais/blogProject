@@ -1,8 +1,16 @@
 <?php
 echo ("Hi There");
-
+use model\Manager\ArticleManager;
 use model\Mapping\ArticleMapping;
 
-$test = new ArticleMapping($db);
-$test->setArticleId("s");
+$test = new ArticleManager($db);
+$newTest = new ArticleMapping([
+    "article_id" => "1",
+    "article_title" => "Test Title",
+    "article_slug" => "test-title",
+    "article_text" => "Test Text",
+    'user_user_id' => "1",
+]);
+
+var_dump($newTest);
 

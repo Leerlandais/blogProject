@@ -5,11 +5,18 @@ namespace model\Mapping;
 use model\Abstract\AbstractMapping;
 use DateTime;
 use Exception;
+
 use model\Trait\TraitTestInt;
+use model\Trait\TraitTestString;
+use model\Trait\TraitCleanString;
+use model\Trait\TraitDateTime;
 
 class ArticleMapping extends AbstractMapping
 {
     use TraitTestInt;
+    use TraitTestString;
+    use TraitCleanString;
+    use TraitDateTime;
     protected ?int $article_id=null;
     protected ?string $article_title=null;
     protected ?string $article_slug=null;
@@ -23,12 +30,9 @@ class ArticleMapping extends AbstractMapping
     {
         return $this->article_id;
     }
-    private OurPDO $db; // contient la connexion à la base de données
-
-
     public function setArticleId(?int $article_id): void
     {
-        if (is_string($this->verifyInt($article_id, 0))){
+        if (!$this->verifyInt($article_id, 0)){
             throw new Exception("Article id must be an integer");
         }
         $this->article_id = $article_id;
@@ -41,6 +45,9 @@ class ArticleMapping extends AbstractMapping
 
     public function setArticleTitle(?string $article_title): void
     {
+        if(!$this->verifyString($this->cleanString($article_title))) {
+            throw new Exception("Title cannot be an empty string");
+        }
         $this->article_title = $article_title;
     }
 
@@ -51,6 +58,9 @@ class ArticleMapping extends AbstractMapping
 
     public function setArticleSlug(?string $article_slug): void
     {
+        if(!$this->verifyString($this->cleanString($article_slug))) {
+            throw new Exception("Slug cannot be an empty string");
+        }
         $this->article_slug = $article_slug;
     }
 
@@ -61,6 +71,9 @@ class ArticleMapping extends AbstractMapping
 
     public function setArticleText(?string $article_text): void
     {
+        if(!$this->verifyString($this->cleanString($article_text))) {
+            throw new Exception("Text cannot be an empty string");
+        }
         $this->article_text = $article_text;
     }
 
@@ -71,7 +84,7 @@ class ArticleMapping extends AbstractMapping
 
     public function setArticleDateCreate(DateTime|string|null $article_date_create): void
     {
-        $this->article_date_create = $article_date_create;
+        $this->formatDateTime($article_date_create, "article_date_create");
     }
 
     public function getArticleDateUpdate(): DateTime|string|null
@@ -81,7 +94,7 @@ class ArticleMapping extends AbstractMapping
 
     public function setArticleDateUpdate(DateTime|string|null $article_date_update): void
     {
-        $this->article_date_update = $article_date_update;
+        $this->formatDateTime($article_date_update, "article_date_update");
     }
 
     public function getArticleDatePublish(): DateTime|string|null
@@ -91,7 +104,7 @@ class ArticleMapping extends AbstractMapping
 
     public function setArticleDatePublish(DateTime|string|null $article_date_publish): void
     {
-        $this->article_date_publish = $article_date_publish;
+        $this->formatDateTime($article_date_publish, "article_date_publish");
     }
 
     public function getUserUserId(): ?int
@@ -101,6 +114,9 @@ class ArticleMapping extends AbstractMapping
 
     public function setUserUserId(?int $user_user_id): void
     {
+        if (!$this->verifyInt($user_user_id, 0)){
+            throw new Exception("User id must be an integer");
+        }
         $this->user_user_id = $user_user_id;
     }
 
