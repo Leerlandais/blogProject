@@ -7,5 +7,13 @@ $test = new ArticleManager($db);
 $newTest = new ArticleMapping([]);
 
 $art = "hihi";
+$route = $_GET['route'] ?? 'home';
 
-echo $twig->render('publicView/public.home.view.twig', ["article" => $art]);
+switch ($route) {
+    case 'home':
+        echo $twig->render('publicView/public.home.view.twig');
+        break;
+    case 'login' :
+        echo $twig->render('publicView/public.login.view.twig');
+        break;
+}
