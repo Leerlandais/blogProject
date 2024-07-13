@@ -3,17 +3,11 @@
 namespace model\Mapping;
 
 use model\Abstract\AbstractMapping;
-use model\Trait\TraitCleanString;
-use model\Trait\TraitTestInt;
-use model\Trait\TraitTestString;
+use DateTime;
 use Exception;
 
 class UserMapping extends AbstractMapping
 {
-    use TraitCleanString;
-    use TraitTestString;
-    use TraitTestInt;
-
     // Les propriétés de la classe sont le nom des
     // attributs de la table Exemple (qui serait en
     // base de données)
@@ -35,9 +29,6 @@ class UserMapping extends AbstractMapping
 
     public function setUserId(?int $user_id): void
     {
-        if (!$this->verifyInt($user_id, 0)){
-            throw new Exception("User id must be an integer");
-        }
         $this->user_id = $user_id;
     }
 
@@ -72,12 +63,11 @@ class UserMapping extends AbstractMapping
         return $this->user_full_name;
     }
 
-    public function setUserFullName(?string $user_full_name) :void
+    public function setUserFullName(?string $user_full_name)
     {
-        if(!$this->verifyString($this->cleanString($user_full_name))) {
-            throw new Exception("User Full Name cannot be an empty string");
-        }
-        $this->user_full_name = $user_full_name;
+        if(is_null($user_full_name)) return null;
+        $texte = trim(strip_tags($user_full_name));
+        $this->user_full_name = $texte;
     }
 
     public function getUserMail(): ?string
@@ -89,7 +79,7 @@ class UserMapping extends AbstractMapping
     {
         if(is_null($user_mail)) return null;
         $cleanEmail = filter_var($user_mail, FILTER_VALIDATE_EMAIL);
-        if(!$cleanEmail) throw new Exception("Not a valid email address");
+        if(!$cleanEmail) throw new Exception("L'adresse mail n'est pas valide");
         $this->user_mail = $cleanEmail;
 
     }
@@ -101,9 +91,6 @@ class UserMapping extends AbstractMapping
 
     public function setUserStatus(?int $user_status): void
     {
-        if(!$this->verifyInt($user_status, 0,2)){
-            throw new Exception("User must be 0-2");
-        }
         $this->user_status = $user_status;
     }
 
@@ -124,9 +111,6 @@ class UserMapping extends AbstractMapping
 
     public function setPermissionPermissionId(?int $permission_permission_id): void
     {
-        if(!$this->verifyInt($permission_permission_id, 0,2)){
-            throw new Exception("Permission ID must be an integer");
-        }
         $this->permission_permission_id = $permission_permission_id;
     }
 

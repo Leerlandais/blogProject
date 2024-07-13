@@ -1,4 +1,21 @@
 <?php
+/**
+ * Classe OurPDO
+ *
+ * Cette classe hérite de la classe PDO de PHP.
+ * Elle permet de se connecter à une base de données
+ * en utilisant le principe de singleton.
+ *
+ * Le singleton est un patron de conception (design pattern)
+ * qui permet de restreindre l'instanciation d'une classe à un seul objet.
+ *
+ * Cette approche garantit qu'il n'y aura qu'une seule
+ * connexion à la base de données dans toute l'application,
+ * ce qui peut améliorer les performances et la gestion
+ * des ressources.
+ *
+ * PHP version 8.2
+ */
 
 namespace model;
 
@@ -34,5 +51,5 @@ class OurPDO extends PDO
         return self::$instance;
     }
 
-
+    
 }

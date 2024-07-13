@@ -3,20 +3,20 @@
 namespace model\Mapping;
 
 use model\Abstract\AbstractMapping;
+use model\Trait\TraitDateTime;
+use model\Trait\TraitSlugify;
+use model\Mapping\UserMapping;
+use model\Mapping\CategoryMapping;
+use model\Mapping\TagMapping;
 use DateTime;
 use Exception;
 
-use model\Trait\TraitTestInt;
-use model\Trait\TraitTestString;
-use model\Trait\TraitCleanString;
-use model\Trait\TraitDateTime;
-
 class ArticleMapping extends AbstractMapping
 {
-    use TraitTestInt;
-    use TraitTestString;
-    use TraitCleanString;
+
     use TraitDateTime;
+    use TraitSlugify;
+
     protected ?int $article_id=null;
     protected ?string $article_title=null;
     protected ?string $article_slug=null;
@@ -26,15 +26,70 @@ class ArticleMapping extends AbstractMapping
     protected null|string|DateTime $article_date_publish=null;
     protected ?int $user_user_id=null;
 
+    // Pour la jointure interne avec la table user (1 ou 0 possibilité)
+    protected ?UserMapping $user=null;
+
+    // Pour la jointure externe avec la table category (0 à n possibilités)
+    protected ?array $categories=null;
+    // Pour la jointure externe avec la table tag (0 à n possibilités)
+    protected ?array $tags=null;
+
+    protected ?int $comment_count=null;
+
+    // getters et setters pour le comment_count
+    public function getCommentCount(): ?int
+    {
+        return $this->comment_count;
+    }
+
+    public function setCommentCount(?int $comment_count): void
+    {
+        $this->comment_count = $comment_count;
+    }
+
+    // getters et setters pour le user
+    public function getUser(): ?UserMapping
+    {
+        return $this->user;
+    }
+
+    public function setUser(?UserMapping $user): void
+    {
+        $this->user = $user;
+    }
+
+    // getters et setters pour les categories
+    public function getCategories(): ?array
+    {
+        return $this->categories;
+    }
+
+    public function setCategories(?array $categories): void
+    {
+        $this->categories = $categories;
+    }
+
+    // getters et setters pour les tags
+    public function getTags(): ?array
+    {
+        return $this->tags;
+    }
+
+    public function setTags(?array $tags): void
+    {
+        $this->tags = $tags;
+    }
+
+    // getters et setters pour les attributs de la classe
+    // représentant les colonnes de la table article
     public function getArticleId(): ?int
     {
         return $this->article_id;
     }
+
     public function setArticleId(?int $article_id): void
     {
-        if (!$this->verifyInt($article_id, 0)){
-            throw new Exception("Article id must be an integer");
-        }
+        if ($article_id < 0) throw new Exception("ID NON VALIDE");
         $this->article_id = $article_id;
     }
 
@@ -43,12 +98,17 @@ class ArticleMapping extends AbstractMapping
         return $this->article_title;
     }
 
-    public function setArticleTitle(?string $article_title): void
+    public function setArticleTitle(?string $article_title)
     {
-        if(!$this->verifyString($this->cleanString($article_title))) {
-            throw new Exception("Title cannot be an empty string");
-        }
+
+        // on vérifie que le titre n'est pas null
+        if ($article_title === null) return null;
+        // on remplit et on protège le titre
+        $article_title = trim(strip_tags($article_title));
+        // on vérifie que le titre n'est pas vide
+        if ($article_title === "") throw new Exception("Merci d'inclure une Titre");
         $this->article_title = $article_title;
+
     }
 
     public function getArticleSlug(): ?string
@@ -58,9 +118,9 @@ class ArticleMapping extends AbstractMapping
 
     public function setArticleSlug(?string $article_slug): void
     {
-        if(!$this->verifyString($this->cleanString($article_slug))) {
-            throw new Exception("Slug cannot be an empty string");
-        }
+        // utilisation de la méthode slugify du trait TraitSlug
+        $article_slug = $this->slugify($article_slug);
+        if ($article_slug === "n-a") throw new Exception("Merci d'inclure le Slug");
         $this->article_slug = $article_slug;
     }
 
@@ -71,40 +131,48 @@ class ArticleMapping extends AbstractMapping
 
     public function setArticleText(?string $article_text): void
     {
-        if(!$this->verifyString($this->cleanString($article_text))) {
-            throw new Exception("Text cannot be an empty string");
-        }
+        $article_text = trim($article_text);
+        if ($article_text === "") throw new Exception("Il faut le texte de l'article");
         $this->article_text = $article_text;
+
     }
 
-    public function getArticleDateCreate(): DateTime|string|null
+    public function getArticleDateCreate(): null|string|DateTime
     {
         return $this->article_date_create;
     }
 
-    public function setArticleDateCreate(DateTime|string|null $article_date_create): void
+    public function setArticleDateCreate(null|string|DateTime $article_date_create): void
     {
+        // utilisation de la méthode formatDateTime
         $this->formatDateTime($article_date_create, "article_date_create");
+
     }
 
-    public function getArticleDateUpdate(): DateTime|string|null
+    public function getArticleDateUpdate(): null|string|DateTime
     {
         return $this->article_date_update;
     }
 
-    public function setArticleDateUpdate(DateTime|string|null $article_date_update): void
+    public function setArticleDateUpdate(null|string|DateTime $article_date_update): void
     {
+
+        // utilisation de la méthode formatDateTime
         $this->formatDateTime($article_date_update, "article_date_update");
+
     }
 
-    public function getArticleDatePublish(): DateTime|string|null
+
+    public function getArticleDatePublish(): null|string|DateTime
     {
         return $this->article_date_publish;
     }
 
-    public function setArticleDatePublish(DateTime|string|null $article_date_publish): void
+    public function setArticleDatePublish(null|string|DateTime $article_date_publish): void
     {
+        // utilisation de la méthode formatDateTime
         $this->formatDateTime($article_date_publish, "article_date_publish");
+
     }
 
     public function getUserUserId(): ?int
@@ -114,10 +182,7 @@ class ArticleMapping extends AbstractMapping
 
     public function setUserUserId(?int $user_user_id): void
     {
-        if (!$this->verifyInt($user_user_id, 0)){
-            throw new Exception("User id must be an integer");
-        }
+        if ($user_user_id < 0) throw new Exception("ID NON VALIDE");
         $this->user_user_id = $user_user_id;
     }
-
-}  // class end
+}

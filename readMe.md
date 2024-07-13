@@ -1,47 +1,79 @@
-# Summer Project - PHP/SQL/TWIG
+# BlOOG1
 
-## Based on the class bloog project, create a website using :-
+Blog en PHP 8 - MVC OO - Travail du Groupe 1
 
- - **Object Oriented PHP**
- - **Twig**
- - **Tailwind or Bootstrap (I'd prefer to use TW)**
- - **Database from [Bloog](https://github.com/Leerlandais/BlOOG1) project with added fields (e.g. article_rating (linked to comments))**
+## Installation
+
+1. Créez un fork du projet
+2. Clonez le fork du projet sur votre machine
+3. Créez un upstream pour pouvoir récupérer les mises à jour du projet
+4. Dupliquez le fichier `config.php.ini` en `config.php` et configurez les variables d'environnement
+5. Importez la base de données `datas/bioog-v3-structure-datas.sql` sur votre serveur de bases de données `MySQL 8`
+6. Créez un dossier avec votre prénom dans le dossier `test`, c'est dans ce dossier que vous allez travailler
+
+### Composer
+
+Installation de composer :
+
+https://getcomposer.org/download/
+
+### Twig
+
+Documentation : https://twig.symfony.com/doc/3.x/
+
+#### Installation
+```bash
+composer require "twig/twig:^3.0"
+```
+
+Dans `index.php` :
+
+```php
+###
+// chemin vers les classes Twig
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
+
+###
+// chargement de l'autoload de composer
+require_once PROJECT_DIRECTORY.'/vendor/autoload.php';
+
+// chemin vers les templates twig
+$loader = new FilesystemLoader(PROJECT_DIRECTORY.'/view/');
+// création d'une instance de $twig
+$twig = new Environment($loader, [
+    'cache' => false, // pas de cache en dev
+    // 'cache' => '/path/to/compilation_cache', // chemin du cache pour la prod
+    // activation du debug en dev
+    'debug' => true,
+]);
+###
+```
 
 
-### Include
 
-- User Accounts
-- User Access Level (SuperAdmin, Admin, Manager, Author, Member) 
-    - SuperAdmin - Absolute Control 
-    - Admin - Full Control of Articles and Users
-    - Manager - Create, Read, Update and Change visibility of articles/comments
-    - Author - Can propose new articles (to be verified by Manager/Admin before publication)
-    - Member - Can leave comments and rate articles
+### Trello
 
-### Public Pages
+https://trello.com/b/Ek39OVjJ/bloog1
 
-- Landing (links to articles, categories, tags and login/createUser)
-- All Articles
-- One Article
-- View by Category
-- View by Tag
-- Create User
-- 404
+### Permissions
+- administrateur
+- modérateur
+- Auteur
+- Abonné
 
-### Private Pages (varies depending on User Level)
-
-- *Member*
-  - As for standard visitor but article pages include "Leave a Comment" form
-- *Author*
-  - Article Creation page
-  - Article Update page (for own articles)
-- *Manager*
-  - As for *Author*
-  - Article Update page (for all articles)
-  - Comment Control page (hide comments, flag abusive users for admin)
-- *Admin*
-  - As for *Manager*
-  - User Control page (promote or banish users)
-- *SuperAdmin*
-  - Absolute control
-
+### Utilisateurs
+- Administrateur :
+    - login : admin
+    - mot de passe : admin
+- Modérateur :
+    - login : modo
+    - mot de passe : modo
+- Auteur :
+    - login : hugove
+    - mot de passe : hugove
+- Abonné :
+    - login : abonne1
+    - mot de passe : abonne1
+    - login : abonne2
+    - mot de passe : abonne2
