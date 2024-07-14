@@ -117,10 +117,12 @@ switch ($route) {
     case '404':
         // vue de la base NON TWIG
         include PROJECT_DIRECTORY."/view/publicView/public.404.php";
-        exit;
+        break;
+    case 'admin':
+        // TOUT CECI SERA MIS DANS UN SECTION PRIVÉ QUAND JE SAIS FAIRE DES LOGIN AVEC OO
+        echo $twig->render('privateTwig/private.homepage.html.twig');
         break;
     default:
         include PROJECT_DIRECTORY."/view/publicView/public.404.php";
-        exit;
         break;
 }
