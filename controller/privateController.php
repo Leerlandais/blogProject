@@ -22,6 +22,16 @@ if(isset($_POST["categoryIdDelete"])
     $deleteCategory = $categoryManager->delete($categoryId);
     header("Location: ?route=admin&section=categories");
     }
+if(isset($_POST["categoryIdUpdate"])
+    && ctype_digit($_POST["categoryIdUpdate"])) {
+    $categoryId = $_POST["categoryIdUpdate"];
+    $getCategory = $categoryManager->selectOneById($categoryId);
+    $getCategory->setCategoryName($_POST['categoryNameUpdate']);
+    $getCategory->setCategorySlug($_POST['categoryNameUpdate']);
+    $getCategory->setCategoryDescription($_POST['categoryDescUpdate']);
+    $updateCategory = $categoryManager->update($getCategory);
+    header("Location: ?route=admin&section=categories");
+}
 
 
 $route = $_GET['route'] ?? 'admin';

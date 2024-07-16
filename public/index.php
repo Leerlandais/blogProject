@@ -30,7 +30,9 @@ $twig = new Environment($loader, [
     // 'cache' => '/path/to/compilation_cache', // chemin du cache pour la prod
     // activation du debug en dev
     'debug' => true,
+
 ]);
+
 
 try {
 // connexion à la database singleton

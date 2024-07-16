@@ -36,7 +36,13 @@ class CategoryManager implements InterfaceManager, InterfaceSlugManager
 
     public function selectOneById(int $id)
     {
-        // TODO: Implement selectOneById() method.
+        $selectOneById = $this->pdo->prepare("SELECT * FROM category WHERE category_id = :id");
+        $selectOneById->execute(['id' => $id]);
+        if($selectOneById->rowCount() === 0){
+            return null;
+        }
+        $fetchOne = $selectOneById->fetch();
+        return new CategoryMapping($fetchOne);
     }
 
     public function insert(AbstractMapping $mapping)
@@ -46,7 +52,28 @@ class CategoryManager implements InterfaceManager, InterfaceSlugManager
 
     public function update(AbstractMapping $mapping)
     {
-        // TODO: Implement update() method.
+        $categoryId = $mapping->getCategoryId();
+        $categoryName = $mapping->getCategoryName();
+        $categorySlug = $mapping->getCategorySlug();
+        $categoryDescription = $mapping->getCategoryDescription();
+        $categoryParent = $mapping->getCategoryParent();
+
+        $sql = "UPDATE category
+                SET 
+                    category_name = :category_name,
+                    category_slug = :category_slug,
+                    category_description = :category_description,
+                    category_parent = :category_parent
+                WHERE
+                    category_id = :category_id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':category_id', $categoryId, OurPDO::PARAM_INT);
+        $stmt->bindParam(':category_name', $categoryName, OurPDO::PARAM_STR);
+        $stmt->bindParam(':category_slug', $categorySlug, OurPDO::PARAM_STR);
+        $stmt->bindParam(':category_description', $categoryDescription, OurPDO::PARAM_STR);
+        $stmt->bindParam(':category_parent', $categoryParent, OurPDO::PARAM_INT);
+
+        $stmt->execute();
     }
 
     public function delete(int $id)
