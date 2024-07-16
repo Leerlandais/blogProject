@@ -64,6 +64,6 @@ class CommentManager implements InterfaceManager
 
     public function delete(int $id)
     {
-        
+        $delete = $this->db->prepare("DELETE FROM category");
     }
 }

@@ -51,7 +51,11 @@ class CategoryManager implements InterfaceManager, InterfaceSlugManager
 
     public function delete(int $id)
     {
-        // TODO: Implement delete() method.
+        $delete = $this->pdo->prepare("DELETE FROM category WHERE category_id = :id");
+        $delete->bindValue(':id', $id, OurPDO::PARAM_INT);
+        $delete->execute();
+        if($delete->rowCount() === 0) return false;
+        return true;
     }
 
     public function selectOneBySlug(string $slug)

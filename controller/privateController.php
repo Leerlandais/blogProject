@@ -20,6 +20,7 @@ if(isset($_POST["categoryIdDelete"])
 && ctype_digit($_POST["categoryIdDelete"])) {
     $categoryId = $_POST["categoryIdDelete"];
     $deleteCategory = $categoryManager->delete($categoryId);
+    header("Location: ?route=admin&section=categories");
     }
 
 
