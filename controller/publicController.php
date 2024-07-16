@@ -120,7 +120,40 @@ switch ($route) {
         break;
     case 'admin':
         // TOUT CECI SERA MIS DANS UN SECTION PRIVÉ QUAND JE SAIS FAIRE DES LOGIN AVEC OO
-        echo $twig->render('privateTwig/private.homepage.html.twig');
+            $section = $_GET["section"] ?? "none";
+            $arts=null;
+            $cats=null;
+            $oneCat=null;
+            $delCat=null;
+            $tags=null;
+            $users=null;
+            switch($section){
+                case 'articles' :
+                    $arts=true;
+                    break;
+                case 'categories' :
+                    $cats = $categoryManager->selectAll();
+                    if (isset($_GET["action"])) {
+                        switch ($_GET["action"]) {
+                            case 'update':
+                                $oneCat = $categoryManager->selectOneBySlug($_GET["slug"]);
+                                break;
+                            case 'delete':
+                                $delCat = $categoryManager->selectOneBySlug($_GET["slug"]);
+                                break;
+                        }
+                    }
+                    break;
+                case 'tags' :
+                    $tags=true;
+                    break;
+                case 'users' :
+                    $users=true;
+                    break;
+            }
+
+        echo $twig->render('privateTwig/private.homepage.html.twig', ['arts' => $arts, 'cats' => $cats, 'oneCat' => $oneCat, 'delCat' => $delCat, 'tags' => $tags, 'users' => $users]);
+
         break;
     default:
         include PROJECT_DIRECTORY."/view/publicView/public.404.php";

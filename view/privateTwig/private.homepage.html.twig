@@ -15,18 +15,21 @@
             <div class="row">
                 <div class="col-sm-6">
                     <ul class="list-unstyled mb-0">
-                        <li><a href="#!">Articles</a></li>
-                        <li><a href="#!">Categories</a></li>
+                        <li><a href="?route=admin&section=articles">Articles</a></li>
+                        <li><a href="?route=admin&section=categories">Categories</a></li>
                     </ul>
                 </div>
                 <div class="col-sm-6">
                     <ul class="list-unstyled mb-0">
-                        <li><a href="#!">Tags</a></li>
-                        <li><a href="#!">Users</a></li>
+                        <li><a href="?route=admin&section=tags">Tags</a></li>
+                        <li><a href="?route=admin&section=users">Users</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
+        {% if cats %}
+        {% include 'privateTwig/inc/private.category.view.twig' %}
+        {% endif %}
     </div>
 {% endblock %}
