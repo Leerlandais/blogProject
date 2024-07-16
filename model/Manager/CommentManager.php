@@ -64,6 +64,6 @@ class CommentManager implements InterfaceManager
 
     public function delete(int $id)
     {
-        // TODO: Implement delete() method.
+        
     }
 }

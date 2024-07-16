@@ -22,6 +22,8 @@ if (isset($_SESSION['MySession'])) {
             // si nous sommes Abonné
             break;
     }
+}else if (isset($_GET["route"]) && $_GET["route"] == "admin") {
+    require_once PROJECT_DIRECTORY . "/controller/privateController.php";
 } else {
     // si nous ne sommes pas connectés,
     // nous chargeons le publicController
