@@ -47,7 +47,14 @@ class CategoryManager implements InterfaceManager, InterfaceSlugManager
 
     public function insert(AbstractMapping $mapping)
     {
-        // TODO: Implement insert() method.
+        $insertCategory = $this->pdo->prepare("INSERT INTO category (category_name, `category_slug`, `category_description`, `category_parent`) VALUES (:category_name, :category_slug, :category_description, :category_parent)");
+        $insertCategory->bindValue('category_name', $mapping->getCategoryName());
+        $insertCategory->bindValue('category_slug', $mapping->getCategorySlug());
+        $insertCategory->bindValue('category_description', $mapping->getCategoryDescription());
+        $insertCategory->bindValue('category_parent', $mapping->getCategoryParent());
+        $insertCategory->execute();
+
+
     }
 
     public function update(AbstractMapping $mapping)

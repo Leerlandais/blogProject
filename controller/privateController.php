@@ -9,6 +9,7 @@ use model\Manager\CategoryManager;
 use model\Manager\CommentManager;
 use model\Manager\TagManager;
 use model\Manager\UserManager;
+use model\Mapping\CategoryMapping;
 
 $articleManager = new ArticleManager($db);
 $categoryManager = new CategoryManager($db);
@@ -35,7 +36,22 @@ if(isset($_POST["categoryIdUpdate"])
     header("Location: ?route=admin&section=categories");
 }
 // AJOUTE NOUVEAU CATEGORY
-    // TODO
+    if(isset($_POST['categoryNameInsert'],
+             $_POST['categoryDescInsert'],
+             $_POST['categoryParentInsert'])
+    ) {
+        // clean these
+        $mapping = new CategoryMapping([
+            'categoryName' => $_POST['categoryNameInsert'],
+            'categorySlug' => $_POST['categoryNameInsert'],
+            'categoryDescription' => $_POST['categoryDescInsert'],
+            'categoryParent' => $_POST['categoryParentInsert']
+        ]);
+        
+        $insertCategory = $categoryManager->insert($mapping);
+
+        header("Location: ?route=admin&section=categories");
+    }
 // SUPPRIMER TAGS
 if(isset($_POST["tagIdDelete"])
     && ctype_digit($_POST["tagIdDelete"])) {
