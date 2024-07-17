@@ -45,8 +45,9 @@ class TagManager implements InterfaceManager, InterfaceSlugManager
 
     public function update(object $object): void
     {
-        $tagId = $object->tag_id;
-        $tagSlug = $object->tag_slug;
+
+        $tagId = $object->getTagId();
+        $tagSlug = $object->getTagSlug();
 
         $sql = "UPDATE tag
                 SET tag_slug = :tag_slug
@@ -59,9 +60,13 @@ class TagManager implements InterfaceManager, InterfaceSlugManager
         $statement->execute();
     }
 
-    public function delete(int $id): void
+    public function delete(int $id): bool
     {
-        // TODO: Implement delete() method.
+        $delete = $this->pdo->prepare("DELETE FROM tag WHERE tag_id = :id");
+        $delete->bindValue(':id', $id, OurPDO::PARAM_INT);
+        $delete->execute();
+        if($delete->rowCount() === 0) return false;
+        return true;
     }
 
     public function selectOneBySlug(string $slug): ?TagMapping

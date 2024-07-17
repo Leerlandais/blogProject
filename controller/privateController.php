@@ -46,9 +46,10 @@ if(isset($_POST["tagIdDelete"])
 // MODIFIER TAGS
 if(isset($_POST["tagIdUpdate"])
     && ctype_digit($_POST["tagIdUpdate"])) {
-    $tagId = $_POST["tagIdUpdate"];
-    $getTag = $tagManager->selectOneById($tagId);
+    $tagSlug = $_POST["tagSlugUpdate"];
     // TODO Clean the slug
+    $getTag = $tagManager->selectOneBySlug($tagSlug);
+    $getTag->setTagId($_POST['tagIdUpdate']);
     $getTag->setTagSlug($_POST['tagSlugUpdate']);
 
     $updateTag = $tagManager->update($getTag);
