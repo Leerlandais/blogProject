@@ -10,6 +10,7 @@ use model\Manager\CommentManager;
 use model\Manager\TagManager;
 use model\Manager\UserManager;
 use model\Mapping\CategoryMapping;
+use model\Mapping\TagMapping;
 
 $articleManager = new ArticleManager($db);
 $categoryManager = new CategoryManager($db);
@@ -72,7 +73,13 @@ if(isset($_POST["tagIdUpdate"])
     header("Location: ?route=admin&section=tags");
 }
 // AJOUTE NOUVEAU TAG
-    // TODO
+ if(isset($_POST["tagSlugInsert"])) {
+     $mapping = new TagMapping([
+         "tagSlug" => $_POST['tagSlugInsert']
+     ]);
+     $insertTag = $tagManager->insert($mapping);
+     header("Location: ?route=admin&section=tags");
+ }
 
 $route = $_GET['route'] ?? 'admin';
 

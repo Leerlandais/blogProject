@@ -40,7 +40,13 @@ class TagManager implements InterfaceManager, InterfaceSlugManager
 
     public function insert(object $object): void
     {
-        // TODO: Implement insert() method.
+        $tagSlug = $object->getTagSlug();
+        $sql = "INSERT INTO tag (tag_slug) VALUES ( :tagSlug)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":tagSlug", $tagSlug);
+        $stmt->execute();
+
+
     }
 
     public function update(object $object): void
