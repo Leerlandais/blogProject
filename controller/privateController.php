@@ -47,7 +47,7 @@ if(isset($_POST["categoryIdUpdate"])
             'categoryDescription' => $_POST['categoryDescInsert'],
             'categoryParent' => $_POST['categoryParentInsert']
         ]);
-        
+
         $insertCategory = $categoryManager->insert($mapping);
 
         header("Location: ?route=admin&section=categories");

@@ -26,7 +26,7 @@
             <tr>
                 <td>{{ cat.getCategoryId }}</td>
                 <td>{{ cat.getCategoryName }}</td>
-                <td>{{ cat.getCategoryDescription > 20 ? cat.getCategoryDescription|slice(0, 21)|split(' ')|slice(0, -1)|join(' ') ~ '…' : cat.getCategoryDescription }}</td>
+                <td>{{ cat.getCategoryDescription|length > 20 ? cat.getCategoryDescription|slice(0, 21)|split(' ')|slice(0, -1)|join(' ') ~ '…' : cat.getCategoryDescription }}</td>
                 <td>{{ cat.getCategoryParent }}</td>
                 <td><a href="?route=admin&section=categories&action=update&slug={{ cat.getCategorySlug }}"><img src="images/pencil.svg" alt="update"></a></td>
                 <td><a href="?route=admin&section=categories&action=delete&slug={{ cat.getCategorySlug }}"><img src="images/trash.svg" alt="delete"></a></td>
