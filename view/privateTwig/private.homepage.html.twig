@@ -31,5 +31,8 @@
         {% if cats %}
         {% include 'privateTwig/inc/private.category.view.twig' %}
         {% endif %}
+        {% if tags %}
+            {% include 'privateTwig/inc/private.tag.view.twig' %}
+        {% endif %}
     </div>
 {% endblock %}

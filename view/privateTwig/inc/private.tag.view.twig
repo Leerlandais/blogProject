@@ -1,6 +1,6 @@
 <?php
 ?>
-
+<h1>sldjflksfjsdlfkj</h1>
 <div class="table-responsive">
     <table class="table table-bordered table-striped" data-toggle="table" data-show-columns="true" data-search="true" data-pagination="true">
         <thead>
@@ -18,8 +18,8 @@
             <tr>
                 <td>{{ tag.getTagId }}</td>
                 <td>{{ tag.getTagSlug }}</td>
-                <td><a href="?route=admin&section=tagss&action=update&slug={{ tag.getTagSlug }}"><img src="images/pencil.svg" alt="update"></a></td>
-                <td><a href="?route=admin&section=tagss&action=delete&slug={{ tag.getTagSlug }}"><img src="images/trash.svg" alt="delete"></a></td>
+                <td><a href="?route=admin&section=tags&action=update&slug={{ tag.getTagSlug }}"><img src="images/pencil.svg" alt="update"></a></td>
+                <td><a href="?route=admin&section=tags&action=delete&slug={{ tag.getTagSlug }}"><img src="images/trash.svg" alt="delete"></a></td>
             </tr>
                 {% endfor %}
 
@@ -45,6 +45,7 @@
             </div>
         </form>
 {% endif %}
+
     {% if delTag is defined and delTag is not null %}
         <form class="d-flex flex-column align-items-center justify-content-center" method="POST" action="" id="deleteForm">
             <div class="row w-auto">

@@ -17,9 +17,20 @@ class TagManager implements InterfaceManager, InterfaceSlugManager
         $this->pdo = $pdo;
     }
 
-    public function selectAll(): array
+    public function selectAll(): array|null
     {
-        // TODO: Implement selectAll() method.
+        $selectAll = $this->pdo->prepare("SELECT * FROM tag");
+        $selectAll->execute();
+        if($selectAll->rowCount() === 0){
+            return null;
+        }
+        $allTags = $selectAll->fetchAll();
+        $selectAll->closeCursor();
+        $tabObject = [];
+        foreach ($allTags as $mapping) {
+            $tabObject[] = new TagMapping($mapping);
+        }
+        return $tabObject;
     }
 
     public function selectOneById(int $id): object

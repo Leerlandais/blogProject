@@ -37,9 +37,23 @@ if(isset($_POST["categoryIdUpdate"])
 // AJOUTE NOUVEAU CATEGORY
     // TODO
 // SUPPRIMER TAGS
-    // TODO
+if(isset($_POST["tagIdDelete"])
+    && ctype_digit($_POST["tagIdDelete"])) {
+    $tagId = $_POST["tagIdDelete"];
+    $deleteCategory = $tagManager->delete($tagId);
+    header("Location: ?route=admin&section=tags");
+}
 // MODIFIER TAGS
-    // TODO
+if(isset($_POST["tagIdUpdate"])
+    && ctype_digit($_POST["tagIdUpdate"])) {
+    $tagId = $_POST["tagIdUpdate"];
+    $getTag = $tagManager->selectOneById($tagId);
+    // TODO Clean the slug
+    $getTag->setTagSlug($_POST['tagSlugUpdate']);
+
+    $updateTag = $tagManager->update($getTag);
+    header("Location: ?route=admin&section=tags");
+}
 // AJOUTE NOUVEAU TAG
     // TODO
 
@@ -53,6 +67,8 @@ switch ($route) {
         $oneCat=null;
         $delCat=null;
         $tags=null;
+        $oneTag=null;
+        $delTag=null;
         $users=null;
         switch($section){
             case 'articles' :
