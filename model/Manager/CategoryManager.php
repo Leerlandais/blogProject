@@ -68,9 +68,9 @@ class CategoryManager implements InterfaceManager, InterfaceSlugManager
                     category_id = :category_id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':category_id', $categoryId, OurPDO::PARAM_INT);
-        $stmt->bindParam(':category_name', $categoryName, OurPDO::PARAM_STR);
-        $stmt->bindParam(':category_slug', $categorySlug, OurPDO::PARAM_STR);
-        $stmt->bindParam(':category_description', $categoryDescription, OurPDO::PARAM_STR);
+        $stmt->bindParam(':category_name', $categoryName);
+        $stmt->bindParam(':category_slug', $categorySlug); // Selon PHPStorm, inutile d'inclure  OurPDO::PARAM_STR  ici
+        $stmt->bindParam(':category_description', $categoryDescription);
         $stmt->bindParam(':category_parent', $categoryParent, OurPDO::PARAM_INT);
 
         $stmt->execute();

@@ -34,7 +34,18 @@ class TagManager implements InterfaceManager, InterfaceSlugManager
 
     public function update(object $object): void
     {
-        // TODO: Implement update() method.
+        $tagId = $object->tag_id;
+        $tagSlug = $object->tag_slug;
+
+        $sql = "UPDATE tag
+                SET tag_slug = :tag_slug
+                WHERE tag_id = :tag_id";
+
+        $statement = $this->pdo->prepare($sql);
+        $statement->bindParam(':tag_id', $tagId, OurPDO::PARAM_INT);
+        $statement->bindParam(':tag_slug', $tagSlug);
+
+        $statement->execute();
     }
 
     public function delete(int $id): void

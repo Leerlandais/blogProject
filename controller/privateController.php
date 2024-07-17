@@ -16,12 +16,14 @@ $commentManager = new CommentManager($db);
 $tagManager = new TagManager($db);
 $userManager = new UserManager($db);
 
+// SUPPRIMER CATEGORY
 if(isset($_POST["categoryIdDelete"])
 && ctype_digit($_POST["categoryIdDelete"])) {
     $categoryId = $_POST["categoryIdDelete"];
     $deleteCategory = $categoryManager->delete($categoryId);
     header("Location: ?route=admin&section=categories");
     }
+// MODIFIER CATEGORY
 if(isset($_POST["categoryIdUpdate"])
     && ctype_digit($_POST["categoryIdUpdate"])) {
     $categoryId = $_POST["categoryIdUpdate"];
@@ -32,7 +34,14 @@ if(isset($_POST["categoryIdUpdate"])
     $updateCategory = $categoryManager->update($getCategory);
     header("Location: ?route=admin&section=categories");
 }
-
+// AJOUTE NOUVEAU CATEGORY
+    // TODO
+// SUPPRIMER TAGS
+    // TODO
+// MODIFIER TAGS
+    // TODO
+// AJOUTE NOUVEAU TAG
+    // TODO
 
 $route = $_GET['route'] ?? 'admin';
 
@@ -63,14 +72,24 @@ switch ($route) {
                 }
                 break;
             case 'tags' :
-                $tags=true;
+                $tags= $tagManager->selectAll();
+                if (isset($_GET["action"])) {
+                    switch ($_GET["action"]) {
+                        case 'update':
+                            $oneTag = $tagManager->selectOneBySlug($_GET["slug"]);
+                            break;
+                        case 'delete':
+                            $delTag = $tagManager->selectOneBySlug($_GET["slug"]);
+                            break;
+                    }
+                }
                 break;
             case 'users' :
                 $users=true;
                 break;
         }
 
-        echo $twig->render('privateTwig/private.homepage.html.twig', ['arts' => $arts, 'cats' => $cats, 'oneCat' => $oneCat, 'delCat' => $delCat, 'tags' => $tags, 'users' => $users]);
+        echo $twig->render('privateTwig/private.homepage.html.twig', ['arts' => $arts, 'cats' => $cats, 'oneCat' => $oneCat, 'delCat' => $delCat, 'tags' => $tags, "oneTag" => $oneTag, "delTag" => $delTag, 'users' => $users]);
 
         break;
     default:
