@@ -11,6 +11,7 @@ use model\Interface\InterfaceSlugManager;
 use model\Mapping\UserMapping;
 use model\Mapping\CategoryMapping;
 use model\Mapping\TagMapping;
+use PDOException;
 
 /**
  * Class ArticleManager
@@ -498,8 +499,18 @@ class ArticleManager implements InterfaceManager, InterfaceSlugManager
         return $article;
     }
 
-    public function changeArticleVisibility(string $slug): void // je trouve excessive d'utiliser le fonction 'update' pour changer la visibilité, donc ajoute d'un autre fonction
+    public function changeArticleVisibility(string $id, int $vis): bool|string
     {
+        $vis == 0 ? $vis = 1 : $vis = 0;
+        $stmt = $this->db->prepare("UPDATE `article` SET `article_is_published` = :vis WHERE `article_id` = :id");
+        try{
+        $stmt->bindValue(':vis', $vis);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        }catch (PDOException $e){
+            return $e->getMessage();
+        }
+        return true;
 
     }
 

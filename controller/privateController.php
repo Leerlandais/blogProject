@@ -107,7 +107,8 @@ switch ($route) {
                             $oneArt = $articleManager->selectOneBySlug($_GET["slug"]);
                             break;
                         case 'visibility':
-                            $artVis = $articleManager->changeArticleVisibility($_GET["slug"]);
+                            $artVis = $articleManager->changeArticleVisibility($_GET["id"], $_GET["vis"]);
+                            if($artVis) header("Location: ?route=admin&section=articles");
                             break;
 
                     }
