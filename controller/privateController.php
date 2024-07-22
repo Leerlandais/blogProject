@@ -145,7 +145,7 @@ switch ($route) {
                 break;
         }
 
-        echo $twig->render('privateTwig/private.homepage.html.twig', ['arts' => $arts, 'cats' => $cats, 'oneCat' => $oneCat, 'delCat' => $delCat, 'tags' => $tags, "oneTag" => $oneTag, "delTag" => $delTag, 'users' => $users]);
+        echo $twig->render('privateTwig/private.homepage.html.twig', ['arts' => $arts, 'oneArt' => $oneArt, 'cats' => $cats, 'oneCat' => $oneCat, 'delCat' => $delCat, 'tags' => $tags, "oneTag" => $oneTag, "delTag" => $delTag, 'users' => $users]);
 
         break;
     default:
