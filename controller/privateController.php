@@ -98,6 +98,7 @@ switch ($route) {
         $oneTag=null;
         $delTag=null;
         $users=null;
+        $catList = $categoryManager->selectAll();
         switch($section){
             case 'articles' :
                 $arts=$articleManager->selectAll();
@@ -145,7 +146,11 @@ switch ($route) {
                 break;
         }
 
-        echo $twig->render('privateTwig/private.homepage.html.twig', ['arts' => $arts, 'oneArt' => $oneArt, 'cats' => $cats, 'oneCat' => $oneCat, 'delCat' => $delCat, 'tags' => $tags, "oneTag" => $oneTag, "delTag" => $delTag, 'users' => $users]);
+        echo $twig->render('privateTwig/private.homepage.html.twig', ['arts' => $arts, 'oneArt' => $oneArt,
+                                                                            'cats' => $cats, 'oneCat' => $oneCat, 'delCat' => $delCat,
+                                                                            'tags' => $tags, "oneTag" => $oneTag, "delTag" => $delTag,
+                                                                            'users' => $users,
+                                                                            'catList' => $catList]);
 
         break;
     default:
