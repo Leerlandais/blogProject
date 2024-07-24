@@ -106,6 +106,7 @@ switch ($route) {
                     switch ($_GET["action"]) {
                         case 'update':
                             $oneArt = $articleManager->selectOneBySlug($_GET["slug"]);
+
                             break;
                         case 'visibility':
                             $artVis = $articleManager->changeArticleVisibility($_GET["id"], $_GET["vis"]);
