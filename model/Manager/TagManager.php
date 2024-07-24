@@ -84,4 +84,15 @@ class TagManager implements InterfaceManager, InterfaceSlugManager
         if($prepare->rowCount() === 0) return null;
         return new TagMapping($prepare->fetch());
     }
+
+    public function removeTagsForUpdate(int $id) : bool
+    {
+        $deleteTags = $this->pdo->prepare("DELETE FROM tag_has_article 
+                                                 WHERE tag_tag_id = :id");
+        $deleteTags->execute(['id' => $id]);
+        if($deleteTags->rowCount() === 0) return false;
+        $deleteTags->closeCursor();
+        return true;
+    }
 }
+
