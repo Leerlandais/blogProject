@@ -103,4 +103,14 @@ class CategoryManager implements InterfaceManager, InterfaceSlugManager
         //var_dump($fetchOne);
         return new CategoryMapping($fetchOne);
     }
+
+    public function removeCategoriesForUpdate(int $id) : bool
+    {
+        $deleteCategories = $this->pdo->prepare("DELETE FROM article_has_category 
+                                                       WHERE category_category_id = :id");
+        $deleteCategories->execute(['id' => $id]);
+        if($deleteCategories->rowCount() === 0) return false;
+        $deleteCategories->closeCursor();
+        return true;
+    }
 }

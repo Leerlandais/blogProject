@@ -81,7 +81,15 @@ if(isset($_POST["tagIdUpdate"])
      header("Location: ?route=admin&section=tags");
  }
 
-
+// MISE À JOUR D'UN ARTICLE
+if (isset($_POST["articleTitleUpdate"],
+          $_POST["articleTextUpdate"],
+          $_POST["articleIdUpdate"])
+    && ctype_digit($_POST["articleIdUpdate"])){
+    $cleanedInt = filter_var($_POST["articleIdUpdate"], FILTER_SANITIZE_NUMBER_INT);
+    removeCategoriesForUpdate($cleanedInt);
+    removeTagsForUpdate($cleanedInt);
+    }
 
 $route = $_GET['route'] ?? 'admin';
 
