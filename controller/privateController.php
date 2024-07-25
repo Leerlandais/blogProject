@@ -105,7 +105,9 @@ if (isset($_POST["articleTitleUpdate"],
     $cleanText = htmlspecialchars(trim(strip_tags($_POST["articleTextUpdate"])), ENT_QUOTES);
     $getArticle = $articleManager->selectOneById($cleanedId);
     $getArticle->setArticleTitle($cleanTitle);
+    $getArticle->setArticleSlug($cleanTitle);
     $getArticle->setArticleText($cleanText);
+
     $updateArticle = $articleManager->update($getArticle);
     header("Location: ?route=admin&section=articles");
     }
