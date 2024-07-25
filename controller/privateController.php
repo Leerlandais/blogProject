@@ -90,7 +90,7 @@ if (isset($_POST["articleTitleUpdate"],
     $cleanedId = filter_var($_POST["articleIdUpdate"], FILTER_SANITIZE_NUMBER_INT);
     $removeCat = $categoryManager->removeCategoriesForUpdate($cleanedId);
     $removeTag = $tagManager->removeTagsForUpdate($cleanedId);
-    
+
     if ($removeCat && $removeTag) {
         $newCat = $_POST["catListNames"];
         $newTag = $_POST["tagListNames"];
@@ -101,6 +101,13 @@ if (isset($_POST["articleTitleUpdate"],
           $tagManager->addTagToArticle($tag, $cleanedId);
         }
     }
+    $cleanTitle = htmlspecialchars(trim(strip_tags($_POST["articleTitleUpdate"])), ENT_QUOTES);
+    $cleanText = htmlspecialchars(trim(strip_tags($_POST["articleTextUpdate"])), ENT_QUOTES);
+    $getArticle = $articleManager->selectOneById($cleanedId);
+    $getArticle->setArticleTitle($cleanTitle);
+    $getArticle->setArticleText($cleanText);
+    $updateArticle = $articleManager->update($getArticle);
+    header("Location: ?route=admin&section=articles");
     }
 
 $route = $_GET['route'] ?? 'admin';
