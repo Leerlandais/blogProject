@@ -86,9 +86,21 @@ if (isset($_POST["articleTitleUpdate"],
           $_POST["articleTextUpdate"],
           $_POST["articleIdUpdate"])
     && ctype_digit($_POST["articleIdUpdate"])){
-    $cleanedInt = filter_var($_POST["articleIdUpdate"], FILTER_SANITIZE_NUMBER_INT);
-    removeCategoriesForUpdate($cleanedInt);
-    removeTagsForUpdate($cleanedInt);
+
+    $cleanedId = filter_var($_POST["articleIdUpdate"], FILTER_SANITIZE_NUMBER_INT);
+    $removeCat = $categoryManager->removeCategoriesForUpdate($cleanedId);
+    $removeTag = $tagManager->removeTagsForUpdate($cleanedId);
+    
+    if ($removeCat && $removeTag) {
+        $newCat = $_POST["catListNames"];
+        $newTag = $_POST["tagListNames"];
+    foreach ($newCat as $cat) {
+       $categoryManager->addCategoryToArticle($cat, $cleanedId);
+    }
+        foreach ($newTag as $tag) {
+          $tagManager->addTagToArticle($tag, $cleanedId);
+        }
+    }
     }
 
 $route = $_GET['route'] ?? 'admin';

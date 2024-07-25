@@ -88,11 +88,20 @@ class TagManager implements InterfaceManager, InterfaceSlugManager
     public function removeTagsForUpdate(int $id) : bool
     {
         $deleteTags = $this->pdo->prepare("DELETE FROM tag_has_article 
-                                                 WHERE tag_tag_id = :id");
-        $deleteTags->execute(['id' => $id]);
-        if($deleteTags->rowCount() === 0) return false;
+                                                 WHERE article_article_id = :id");
+        $deleteTags->execute([':id' => $id]);
+        if($deleteTags->rowCount() === 0) die("problem tag");
         $deleteTags->closeCursor();
         return true;
+    }
+
+    public function addTagToArticle(string $tag, int $id) :bool
+    {
+        $sql = $this->pdo->prepare("INSERT INTO `tag_has_article`(`tag_tag_id`, `article_article_id`) VALUES (?,?)");
+        $sql->execute([$tag, $id]);
+        if($sql->rowCount() === 0) return false;
+        return true;
+
     }
 }
 

@@ -107,10 +107,18 @@ class CategoryManager implements InterfaceManager, InterfaceSlugManager
     public function removeCategoriesForUpdate(int $id) : bool
     {
         $deleteCategories = $this->pdo->prepare("DELETE FROM article_has_category 
-                                                       WHERE category_category_id = :id");
-        $deleteCategories->execute(['id' => $id]);
-        if($deleteCategories->rowCount() === 0) return false;
+                                                       WHERE article_article_id = :id");
+        $deleteCategories->execute([':id' => $id]);
+        if($deleteCategories->rowCount() === 0) die("problem cat");
         $deleteCategories->closeCursor();
+        return true;
+    }
+
+    public function addCategoryToArticle(string $cat, int $id) : bool
+    {
+        $sql = $this->pdo->prepare("INSERT INTO `article_has_category`(`article_article_id`, `category_category_id`) VALUES (?,?)");
+        $sql->execute([$id, $cat]);
+        if($sql->rowCount() === 0) return false;
         return true;
     }
 }
