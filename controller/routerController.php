@@ -11,8 +11,8 @@ if (isset($_SESSION['MySession'])) {
     $router = $_SESSION['permission_name'];
     switch ($router) {
         case 'Administrateur':
-            echo("good");
-            die(var_dump($_SESSION));
+            require_once PROJECT_DIRECTORY . "/controller/privateController.php";
+            die();
             // si nous sommes Administrateur
             break;
         case 'Modérateur':
@@ -26,8 +26,6 @@ if (isset($_SESSION['MySession'])) {
             // si nous sommes Abonné
             break;
     }
-}else if (isset($_GET["route"]) && $_GET["route"] == "admin") {
-    require_once PROJECT_DIRECTORY . "/controller/privateController.php";
 } else {
     // si nous ne sommes pas connectés,
     // nous chargeons le publicController
