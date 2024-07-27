@@ -155,6 +155,9 @@ switch ($route) {
         echo $twig->render('privateTwig/private.homepage.html.twig', ['arts' => $arts, 'cats' => $cats, 'oneCat' => $oneCat, 'delCat' => $delCat, 'tags' => $tags, 'users' => $users]);
 
         break;
+    case 'login' :
+        echo $twig->render('publicTwig/public.login.html.twig');
+        break;
     default:
         include PROJECT_DIRECTORY."/view/publicView/public.404.php";
         break;

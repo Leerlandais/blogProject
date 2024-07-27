@@ -64,7 +64,7 @@ class UserManager implements InterfaceManager, InterfaceSlugManager, InterfaceUs
 
     public function hashPassword(string $password): string
     {
-        // TODO: Implement hashPassword() method.
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 
     public function verifyPassword(string $password, string $hash): bool
