@@ -21,6 +21,13 @@ $tagManager = new TagManager($db);
 // on instancie le manager des utilisateurs
 $userManager = new UserManager($db);
 
+// au cas d'attentive connexion d'utilisateur
+if(isset($_POST["userLoginName"], $_POST["userLoginPass"])){
+ $name = htmlspecialchars(trim(strip_tags($_POST["userLoginName"])),ENT_QUOTES);
+ $pass = $_POST["userLoginPass"];
+ $loginUser = $userManager->login($name, $pass);
+}
+
 // si la route n'est pas définie, on affiche la page d'accueil
 $route = $_GET['route'] ?? 'accueil';
 

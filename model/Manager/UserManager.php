@@ -46,7 +46,9 @@ class UserManager implements InterfaceManager, InterfaceSlugManager, InterfaceUs
 
     public function selectOneBySlug(string $slug): ?UserMapping
     {
-        $prepare = $this->pdo->prepare("SELECT u.user_id, u.user_full_name, u.`user_login` FROM `user` u WHERE u.`user_login` = :slug");
+        $prepare = $this->pdo->prepare("SELECT u.* 
+                                              FROM `user` u 
+                                              WHERE u.`user_login` = :slug");
         $prepare->execute([':slug' => $slug]);
         if($prepare->rowCount() === 0) return null;
         return new UserMapping($prepare->fetch());
@@ -59,7 +61,19 @@ class UserManager implements InterfaceManager, InterfaceSlugManager, InterfaceUs
 
     public function login(string $login, string $password)
     {
-        // TODO: Implement login() method.
+        $user = $this->selectOneBySlug($login);
+        if(!$user) return null;
+        $realPass = $user->getUserPassword();
+        if(!$this->verifyPassword($password, $realPass)) return null;
+        $sql = $this->pdo->prepare("SELECT permission_name FROM `permission` WHERE `permission_id` = ?");
+        $sql->bindValue(1, $user->getPermissionPermissionId());
+        $sql->execute();
+        $permission = $sql->fetch();
+        $_SESSION["name"] = $user->getUserFullName();
+        $_SESSION["status"] = $user->getUserStatus();
+        $_SESSION["permission_name"] = $permission["permission_name"];
+        unset($_SESSION["user_password"]);
+        $_SESSION["MySession"] = true;
     }
 
     public function hashPassword(string $password): string
@@ -69,7 +83,8 @@ class UserManager implements InterfaceManager, InterfaceSlugManager, InterfaceUs
 
     public function verifyPassword(string $password, string $hash): bool
     {
-        // TODO: Implement verifyPassword() method.
+        if (!password_verify($password, $hash)) return false;
+        return true;
     }
 
     public function generateUniqueKey(): string
