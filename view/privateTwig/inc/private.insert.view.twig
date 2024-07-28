@@ -1,0 +1,35 @@
+
+    <form class="d-flex flex-column align-items-center justify-content-center w-100" method="POST" action="" id="insertArtForm">
+        <div class="row w-100">
+
+            <div class="form-group">
+                <label for="articleTitleInsert">Titre</label>
+                <input type="text" class="form-control text-center w-50 mx-auto" name="articleTitleInsert" aria-describedby="artTitleField">
+            </div>
+            <div class="form-group">
+                <label for="articleTextInsert">Article</label>
+                <textarea class="form-control text-center" rows="6" name="articleTextInsert" aria-describedby="artTextField"></textarea>
+            </div>
+
+            <div class="form-group">
+                {% for cat in catList %}
+                    <input class="form-check-input catListName myCheckbox ms-3" type="checkbox" name="catListNames[]">
+                    <label class="form-check-label categSlug" for="{{ cat.getCategorySlug }}">
+                        {{ cat.getCategoryName }}
+                    </label>
+                {% endfor %}
+            </div>
+            <div class="form-group mt-5 border border-2">
+                {% for tag in tagList %}
+
+                    <input class="form-check-input myCheckbox tagListName ms-3" type="checkbox" name="tagListNames[]">
+                    <label class="form-check-label tagSlug" for="{{ tag.getTagSlug }}">
+                        {{ tag.getTagSlug }}
+                    </label>
+                {% endfor %}
+            </div>
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-dark btn-outline-danger rounded-pill my-3">Insérer l'article</button>
+            </div>
+        </div>
+    </form>

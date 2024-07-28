@@ -129,6 +129,7 @@ switch ($route) {
         $oneTag=null;
         $delTag=null;
         $users=null;
+        $insert=false;
         $catList = $categoryManager->selectAll();
         $tagList = $tagManager->selectAll();
 
@@ -138,7 +139,7 @@ switch ($route) {
                 if (isset($_GET["action"])) {
                     switch ($_GET["action"]) {
                         case 'insert' :
-                            echo 'ok';
+                            $insert = true;
                             break;
                         case 'update':
                             $oneArt = $articleManager->selectOneBySlug($_GET["slug"]);
@@ -183,7 +184,7 @@ switch ($route) {
                 break;
         }
 
-        echo $twig->render('privateTwig/private.homepage.html.twig', ['arts' => $arts, 'oneArt' => $oneArt,
+        echo $twig->render('privateTwig/private.homepage.html.twig', ['arts' => $arts, 'oneArt' => $oneArt, 'insert' => $insert,
                                                                             'cats' => $cats, 'oneCat' => $oneCat, 'delCat' => $delCat,
                                                                             'tags' => $tags, "oneTag" => $oneTag, "delTag" => $delTag,
                                                                             'users' => $users,
