@@ -137,6 +137,9 @@ switch ($route) {
                 $arts=$articleManager->selectAll();
                 if (isset($_GET["action"])) {
                     switch ($_GET["action"]) {
+                        case 'insert' :
+                            echo 'ok';
+                            break;
                         case 'update':
                             $oneArt = $articleManager->selectOneBySlug($_GET["slug"]);
 
